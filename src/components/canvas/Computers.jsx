@@ -76,3 +76,8 @@ const ComputersCanvas = () => {
 };
 
 export default ComputersCanvas;
+
+
+<div className='Hero'>
+  <ComputersCanvas sm={true} />
+</div>
