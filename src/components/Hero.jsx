@@ -3,7 +3,26 @@ import { motion } from "framer-motion";
 import { styles } from "../styles";
 import { ComputersCanvas } from "./canvas";
 
+import React, { useState, useEffect } from "react";
+
 const Hero = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Function to check if the user is on a mobile device
+  const checkIfMobile = () => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent)) {
+      setIsMobile(true);
+    }
+  };
+
+  // Use useEffect to check the device type when the component mounts
+  useEffect(() => {
+    checkIfMobile();
+  }, []);
+
+
+
   return (
     <section className={`relative w-full h-screen mx-auto`}>
       <div
@@ -24,7 +43,8 @@ const Hero = () => {
         </div>
       </div>
 
-      <ComputersCanvas />
+      {/* Conditionally render the 3D model or a message */}
+      {!isMobile && <ComputersCanvas />}
 
       <div className='absolute xs:bottom-10 bottom-32 w-full flex justify-center items-center'>
         <a href='#about'>
