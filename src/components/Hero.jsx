@@ -1,24 +1,33 @@
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { styles } from "../styles";
 import { ComputersCanvas } from "./canvas";
+import "./Hero.css"; // Import your custom CSS file
 
-import React, { useState, useEffect } from "react";
+
 
 const Hero = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  // Use state to track the screen width
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
-  // Function to check if the user is on a mobile device
-  const checkIfMobile = () => {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent)) {
-      setIsMobile(true);
-    }
+  // Function to update the screen width state
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
   };
 
-  // Use useEffect to check the device type when the component mounts
+  // Use effect to add and remove the event listener
   useEffect(() => {
-    checkIfMobile();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
+
+  // Define a breakpoint for mobile screens
+  const mobileBreakpoint = 640; // Adjust this value as needed
+
+  // Conditionally render the ComputersCanvas component based on screen width
+  const renderComputersCanvas = screenWidth >= mobileBreakpoint;
 
 
 
@@ -43,8 +52,8 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Conditionally render the 3D model or a message */}
-      {!isMobile && <ComputersCanvas />}
+      {/* Conditionally render the ComputersCanvas component */}
+      {renderComputersCanvas && <ComputersCanvas />}
 
       <div className="absolute xs:bottom-10 bottom-32 w-full flex justify-center items-center">
         <a href="#about">
